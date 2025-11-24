@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getRedirectForRole } from "@/lib/mockAuth";
+import { auth } from "@/services/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,11 +14,30 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<Role>("patient");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock: accept any signup
-    router.push(getRedirectForRole(role));
+    setError(null);
+    setLoading(true);
+    // split name into first/last
+    const parts = name.trim().split(" ");
+    const firstName = parts.shift() ?? "";
+    const lastName = parts.join(" ") ?? "";
+    try {
+      if (role === "doctor") {
+        await auth.registerDoctor({ email, password, firstName, lastName });
+      } else {
+        await auth.register({ email, password, firstName, lastName });
+      }
+      // After register, redirect to login (server may require email verification)
+      router.push("/login");
+    } catch (err: any) {
+      setError(err?.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,7 +70,8 @@ export default function SignupPage() {
                   ))}
                 </div>
               </div>
-              <Button type="submit" className="w-full">Create Account</Button>
+              {error && <div className="text-sm text-rose-600">{error}</div>}
+              <Button type="submit" className="w-full" disabled={loading}>{loading?"Creating...":"Create Account"}</Button>
               <div className="text-center text-sm text-slate-600">
                 Already have an account? <a className="text-blue-600" href="/login">Sign in</a>
               </div>

@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { RoleShell } from "@/components/layout/RoleShell";
+import RoleGuard from "@/components/auth/RoleGuard";
 import { Calendar, FileText, Gauge, User } from "lucide-react";
 
 export default function DoctorLayout({ children }: { children: React.ReactNode }) {
@@ -10,6 +11,8 @@ export default function DoctorLayout({ children }: { children: React.ReactNode }
     { href: "/doctor/profile", label: "Profile", icon: <User size={18}/> },
   ];
   return (
-    <RoleShell sidebar={<Sidebar title="Doctor" items={items}/>}>{children}</RoleShell>
+    <RoleGuard allowed={["doctor"]}>
+      <RoleShell sidebar={<Sidebar title="Doctor" items={items}/>}>{children}</RoleShell>
+    </RoleGuard>
   );
 }

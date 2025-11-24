@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { RoleShell } from "@/components/layout/RoleShell";
+import RoleGuard from "@/components/auth/RoleGuard";
 import { Gauge, UserCog, Users, FileText } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -10,6 +11,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/consultations", label: "Consultations", icon: <FileText size={18}/> },
   ];
   return (
-    <RoleShell sidebar={<Sidebar title="Admin" items={items}/>}>{children}</RoleShell>
+    <RoleGuard allowed={["admin"]}>
+      <RoleShell sidebar={<Sidebar title="Admin" items={items}/>}>{children}</RoleShell>
+    </RoleGuard>
   );
 }

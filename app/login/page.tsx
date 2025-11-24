@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authenticate, getRedirectForRole } from "@/lib/mockAuth";
+import { auth } from "@/services/auth";
+import { getRedirectForRole } from "@/lib/mockAuth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,14 +24,17 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const res = authenticate(email, password);
-    if (!res.ok) {
-      setLoading(false);
-      setError("Invalid credentials. Try prefill buttons below.");
-      return;
-    }
-    const redirectTo = getRedirectForRole(res.role);
-    router.push(redirectTo);
+    (async () => {
+      try {
+        const data = await auth.login({ email, password });
+        const role = data?.role ?? "patient";
+        router.push(getRedirectForRole(role));
+      } catch (err: any) {
+        setError(err?.message || "Login failed");
+      } finally {
+        setLoading(false);
+      }
+    })();
   };
 
   return (
