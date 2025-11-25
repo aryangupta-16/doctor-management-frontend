@@ -105,6 +105,15 @@ export const auth = {
     if (typeof window === "undefined") return null;
     const token = localStorage.getItem("accessToken");
     const decoded = decodeJwt(token);
+    // if token has expired, clear stored tokens and return null
+    const exp = decoded?.exp;
+    if (typeof exp === "number") {
+      const now = Math.floor(Date.now() / 1000);
+      if (now >= exp) {
+        clearTokens();
+        return null;
+      }
+    }
     const roleClaim = decoded?.roles ?? decoded?.role ?? null;
     return typeof roleClaim === "string" ? roleClaim.toLowerCase() : null;
   },

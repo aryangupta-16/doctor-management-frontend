@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/services/auth";
 import { getRedirectForRole } from "@/lib/mockAuth";
@@ -36,6 +36,13 @@ export default function LoginPage() {
       }
     })();
   };
+
+  useEffect(() => {
+    const role = auth.getRole();
+    if (role) {
+      router.replace(getRedirectForRole(role as any));
+    }
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-20">

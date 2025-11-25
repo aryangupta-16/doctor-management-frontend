@@ -1,16 +1,16 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { doctors } from "@/mock/doctors";
-import { availability } from "@/mock/availability";
 import { MiniCalendar } from "@/components/calendar";
 import { SlotSelector } from "@/components/slot-selector";
 import { Button } from "@/components/ui/button";
+import DoctorSlots from "@/components/availability/DoctorSlots";
 
 export default async function DoctorProfile({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const doc = doctors.find((d) => d.id === id);
   if (!doc) return notFound();
-  const slots = availability[doc.id] ?? [];
+  // slots are loaded client-side by DoctorSlots component
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div className="col-span-2 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
@@ -29,13 +29,10 @@ export default async function DoctorProfile({ params }: { params: Promise<{ id: 
       <div className="space-y-4">
         <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
           <div className="mb-3 font-semibold text-slate-900">Select date</div>
-          <MiniCalendar />
+            {/* date selection handled in DoctorSlots */}
+            <DoctorSlots doctorId={doc.id} />
         </div>
-        <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-          <div className="mb-3 font-semibold text-slate-900">Available slots</div>
-          <SlotSelector slots={slots} />
-          <Button className="mt-4 w-full">Continue to Booking</Button>
-        </div>
+          {/* slot selector moved inside DoctorSlots; booking action can be handled there or in a separate flow */}
       </div>
     </div>
   );

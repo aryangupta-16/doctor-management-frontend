@@ -5,6 +5,7 @@ import { DoctorCard } from "@/components/doctor-card";
 import { StatsCard } from "@/components/stats-card";
 import LineChart from "@/components/charts/LineChart";
 import { consultations } from "@/mock/consultations";
+import FeaturedDoctors from "@/components/search/FeaturedDoctors";
 import { doctors } from "@/mock/doctors";
 import { prescriptions } from "@/mock/prescriptions";
 import Link from "next/link";
@@ -31,9 +32,9 @@ export default function PatientDashboard() {
             <Button>Search</Button>
           </div>
           <div className="mt-4 grid grid-cols-1 gap-4">
-            {doctors.slice(0, 3).map((d) => (
-              <DoctorCard key={d.id} doctor={d} />
-            ))}
+            {/* Featured doctors loaded from search API */}
+            {/* @ts-expect-error Client component */}
+            <FeaturedDoctors limit={3} />
           </div>
         </CardContent>
       </Card>
