@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-const ADMIN_PREFIX = process.env.NEXT_PUBLIC_ADMIN_PREFIX ?? "http://localhost:8000/api/admin";
+const ADMIN_PREFIX = process.env.NEXT_PUBLIC_ADMIN_PREFIX ?? "/api/admin";
 
 function base(path: string) {
   return `${ADMIN_PREFIX}${path}`;

@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-const SEARCH_PREFIX = process.env.NEXT_PUBLIC_SEARCH_PREFIX ?? "http://localhost:8000/api/search";
+const SEARCH_PREFIX = process.env.NEXT_PUBLIC_SEARCH_PREFIX ?? "/api/search";
 
 function base(path: string) {
   return `${SEARCH_PREFIX}${path}`;

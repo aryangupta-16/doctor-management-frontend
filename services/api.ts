@@ -1,6 +1,7 @@
 // Lightweight fetch wrapper used by frontend services
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
-const AUTH_PREFIX = process.env.NEXT_PUBLIC_AUTH_PREFIX ?? "http://localhost:8000/api/auth";
+// Default to local backend on port 8000 when env var is not set
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const AUTH_PREFIX = process.env.NEXT_PUBLIC_AUTH_PREFIX ?? "/api/auth";
 
 function getAccessToken() {
   if (typeof window === "undefined") return null;

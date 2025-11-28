@@ -16,7 +16,8 @@ export default function ConsultationDetail({ id }: { id: string }) {
   const [msg, setMsg] = useState<string | null>(null);
   const [prescription, setPrescription] = useState<any>(null);
   const [loadingPrescription, setLoadingPrescription] = useState(false);
-
+  
+  
   // UI states for actions
   const [cancelOpen, setCancelOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
@@ -44,7 +45,8 @@ export default function ConsultationDetail({ id }: { id: string }) {
         try {
           const pRes = await prescriptionService.getByConsultation(id);
           const pData = pRes?.data ?? pRes;
-          setPrescription(pData ?? null);
+          // API may return an array of prescriptions; use the first one if present
+          setPrescription(Array.isArray(pData) ? (pData[0] ?? null) : (pData ?? null));
         } catch (e) {
           // Prescription may not exist, that's ok
         } finally {
@@ -127,7 +129,10 @@ export default function ConsultationDetail({ id }: { id: string }) {
       {msg && <div className="rounded-md bg-green-50 p-3 text-green-800">{msg}</div>}
       <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
         <div className="text-xl font-semibold text-slate-900">Consultation {consultation.id}</div>
-        <div className="mt-1 text-slate-600">{new Date(consultation.slot?.slotStartTime ?? consultation.startTime ?? consultation.date).toLocaleString()}</div>
+          <div className="mt-1 text-slate-600">{new Date(consultation.slot?.slotStartTime ?? consultation.startTime ?? consultation.date).toLocaleString()}</div>
+          <div className="mt-2">
+            <span className="inline-block px-2 py-1 text-xs font-medium rounded bg-slate-100 text-slate-700">{String(consultation.status ?? "").replace(/_/g, " ")}</span>
+          </div>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
             <div className="font-semibold text-slate-900">Patient</div>
@@ -140,21 +145,37 @@ export default function ConsultationDetail({ id }: { id: string }) {
         </div>
 
         <div className="mt-4 flex gap-2">
-          {role === "patient" && (
-            <>
-              <Button onClick={() => setCancelOpen(true)}>Cancel</Button>
-              <Button variant="secondary" onClick={() => setRescheduleOpen(true)}>Reschedule</Button>
-            </>
-          )}
-          {role === "doctor" && (
-            <>
-              <Button onClick={handleStart}>Start</Button>
-              <Button variant="secondary" onClick={() => setCompleteOpen(true)}>Complete</Button>
-              <Link href={`/doctor/prescription/create/${consultation.id}`}>
-                <Button variant="secondary">Write Prescription</Button>
-              </Link>
-            </>
-          )}
+          {role === "patient" && (() => {
+            const status = String(consultation.status ?? "").toUpperCase();
+            const canModify = ["SCHEDULED", "BOOKED", "PENDING"].includes(status);
+            if (!canModify) {
+              if (status === "CANCELLED") {
+                return <Button variant="secondary">Cancelled</Button>;
+              }
+              return null;
+            }
+            return (
+              <>
+                <Button onClick={() => setCancelOpen(true)}>Cancel</Button>
+                <Button variant="secondary" onClick={() => setRescheduleOpen(true)}>Reschedule</Button>
+              </>
+            );
+          })()}
+
+          {role === "doctor" && (() => {
+            const status = String(consultation.status ?? "").toUpperCase();
+            const canStart = ["SCHEDULED", "BOOKED", "PENDING"].includes(status);
+            const canComplete = status === "IN_PROGRESS";
+            return (
+              <>
+                {canStart && <Button onClick={handleStart}>Start</Button>}
+                {canComplete && <Button onClick={handleComplete}>Complete</Button>}
+                <Link href={`/doctor/prescription/create/${consultation.id}`}>
+                  <Button variant="secondary">Write Prescription</Button>
+                </Link>
+              </>
+            );
+          })()}
         </div>
       </div>
 
@@ -224,7 +245,7 @@ export default function ConsultationDetail({ id }: { id: string }) {
         <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
           <div className="font-semibold text-slate-900 mb-2">Prescription</div>
           <div className="text-sm text-slate-700 mb-3">A prescription has been created for this consultation.</div>
-          <Link href={`/patient/prescriptions/${prescription.id}`}>
+          <Link href={`/prescriptions/${String(prescription?.id)}`}>
             <Button>View Prescription</Button>
           </Link>
         </div>

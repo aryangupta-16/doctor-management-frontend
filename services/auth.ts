@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-const AUTH_PREFIX = process.env.NEXT_PUBLIC_AUTH_PREFIX ?? "http://localhost:8000/api/auth";
+const AUTH_PREFIX = process.env.NEXT_PUBLIC_AUTH_PREFIX ?? "/api/auth";
 
 function base(path: string) {
   return `${AUTH_PREFIX}${path}`;

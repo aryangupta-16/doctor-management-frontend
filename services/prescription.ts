@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-const PRESCRIPTION_PREFIX = process.env.NEXT_PUBLIC_PRESCRIPTION_PREFIX ?? "http://localhost:8000/api/prescriptions";
+const PRESCRIPTION_PREFIX = process.env.NEXT_PUBLIC_PRESCRIPTION_PREFIX ?? "/api/prescriptions";
 
 function base(path: string) {
   return `${PRESCRIPTION_PREFIX}${path}`;

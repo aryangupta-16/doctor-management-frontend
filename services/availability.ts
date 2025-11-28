@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-const AVAIL_PREFIX = process.env.NEXT_PUBLIC_AVAILABILITY_PREFIX ?? "http://localhost:8000/api/availability";
+const AVAIL_PREFIX = process.env.NEXT_PUBLIC_AVAILABILITY_PREFIX ?? "/api/availability";
 
 function base(path: string) {
   return `${AVAIL_PREFIX}${path}`;

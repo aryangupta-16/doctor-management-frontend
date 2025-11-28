@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-const CONSULT_PREFIX = process.env.NEXT_PUBLIC_CONSULTATION_PREFIX ?? "http://localhost:8000/api/consultation";
+const CONSULT_PREFIX = process.env.NEXT_PUBLIC_CONSULTATION_PREFIX ?? "/api/consultation";
 
 function base(path: string) {
   return `${CONSULT_PREFIX}${path}`;
