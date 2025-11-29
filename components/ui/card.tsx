@@ -3,7 +3,14 @@ import { cn } from "@/lib/cn";
 
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
   return (
-    <div className={cn("rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100", className)}>
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-[0_14px_55px_rgba(15,23,42,0.95)] backdrop-blur-xl",
+        "before:pointer-events-none before:absolute before:-inset-px before:rounded-[1.25rem] before:bg-[radial-gradient(circle_at_top,_rgba(96,165,250,0.22),transparent_55%),radial-gradient(circle_at_120%_10%,rgba(129,140,248,0.26),transparent_60%)] before:opacity-70",
+        "[&>*]:relative [&>*]:z-10",
+        className
+      )}
+    >
       {children}
     </div>
   );
@@ -14,9 +21,9 @@ export function CardHeader({ children }: { children: ReactNode }) {
 }
 
 export function CardTitle({ children }: { children: ReactNode }) {
-  return <h3 className="text-lg font-semibold text-slate-900">{children}</h3>;
+  return <h3 className="text-lg font-semibold text-slate-50">{children}</h3>;
 }
 
 export function CardContent({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("text-slate-700", className)}>{children}</div>;
+  return <div className={cn("text-slate-200", className)}>{children}</div>;
 }

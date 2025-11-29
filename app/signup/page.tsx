@@ -49,39 +49,46 @@ export default function SignupPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-14">
-      <div className="w-full max-w-md">
-        <Card>
+    <div className="min-h-screen flex items-center justify-center px-6 py-14">
+      <div className="w-full max-w-md animate-[subtle-fade-up_360ms_ease-out]">
+        <Card className="border border-white/15">
           <CardContent>
             <form onSubmit={onSubmit} className="space-y-4">
               <div className="text-center">
-                <div className="text-2xl font-semibold text-slate-900">Create account</div>
-                <div className="text-sm text-slate-600">Select your role and continue</div>
+                <div className="text-2xl font-semibold text-slate-50">Create account</div>
+                <div className="text-sm text-slate-300">Select your role and continue</div>
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Full Name</label>
+                <label className="mb-1 block text-sm font-medium text-slate-200">Full Name</label>
                 <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" required />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Email</label>
+                <label className="mb-1 block text-sm font-medium text-slate-200">Email</label>
                 <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Password</label>
+                <label className="mb-1 block text-sm font-medium text-slate-200">Password</label>
                 <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Create a password" required />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Role</label>
+                <label className="mb-1 block text-sm font-medium text-slate-200">Role</label>
                 <div className="grid grid-cols-3 gap-2">
                   {(["patient","doctor","admin"] as Role[]).map((r) => (
-                    <button key={r} type="button" onClick={() => setRole(r)} className={`rounded-xl border px-4 py-2 text-sm ${role===r?"border-slate-900 text-slate-900":"border-gray-200 text-slate-700"}`}>{r[0].toUpperCase()+r.slice(1)}</button>
+                    <button
+                      key={r}
+                      type="button"
+                      onClick={() => setRole(r)}
+                      className={`rounded-2xl border px-4 py-2 text-sm transition-all ${role===r?"border-sky-400 bg-slate-900/60 text-slate-50 shadow-[0_10px_30px_rgba(56,189,248,0.4)]":"border-slate-700/80 bg-slate-900/40 text-slate-300 hover:border-slate-500"}`}
+                    >
+                      {r[0].toUpperCase()+r.slice(1)}
+                    </button>
                   ))}
                 </div>
               </div>
-              {error && <div className="text-sm text-rose-600">{error}</div>}
+              {error && <div className="text-sm text-rose-400">{error}</div>}
               <Button type="submit" className="w-full" disabled={loading}>{loading?"Creating...":"Create Account"}</Button>
-              <div className="text-center text-sm text-slate-600">
-                Already have an account? <a className="text-blue-600" href="/login">Sign in</a>
+              <div className="text-center text-sm text-slate-300">
+                Already have an account? <a className="text-sky-400 hover:text-sky-300" href="/login">Sign in</a>
               </div>
             </form>
           </CardContent>

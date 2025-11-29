@@ -7,7 +7,7 @@ export default async function BookingPage({ params }: { params: { doctorId: stri
   const { doctorId } = await params;
   let doc = null;
   try {
-    const res = await api.get(`http://localhost:8000/api/doctors/${doctorId}`);
+    const res = await api.get(`/api/doctors/${doctorId}`);
     doc = res?.doctor ?? res?.data?.doctor ?? null;
   } catch (e) {
     console.log("Error fetching doctor:", e);
