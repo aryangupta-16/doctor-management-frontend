@@ -6,7 +6,8 @@ import searchService from "@/services/search";
 // Transform API response to DoctorCard format
 function transformDoctor(apiDoctor: any) {
   return {
-    id: apiDoctor.id,
+    id: apiDoctor.user?.id || apiDoctor.userId, // Use user ID for profile viewing
+    doctorId: apiDoctor.id, // Keep doctor ID for booking
     name: `Dr. ${apiDoctor.user?.firstName || ""} ${apiDoctor.user?.lastName || ""}`.trim(),
     speciality: apiDoctor.specialtyPrimary || "General Practitioner",
     experience: apiDoctor.yearsOfExperience || 0,

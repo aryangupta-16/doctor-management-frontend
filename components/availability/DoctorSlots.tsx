@@ -70,7 +70,7 @@ export default function DoctorSlots({ doctorId, onSlotSelect }: { doctorId: stri
 
   // Booking flow: open a small inline form when user clicks Book
   const [bookingOpen, setBookingOpen] = useState(false);
-  const [ConsultationType, setConsultationType] = useState("tele");
+  const [consultationType, setConsultationType] = useState("VIDEO");
   const [chiefComplaint, setChiefComplaint] = useState("");
   const [symptoms, setSymptoms] = useState("");
   const [bookingLoading, setBookingLoading] = useState(false);
@@ -80,7 +80,7 @@ export default function DoctorSlots({ doctorId, onSlotSelect }: { doctorId: stri
     if (!selectedSlotId) return;
     setBookingLoading(true);
     try {
-      const res = await consultationService.book({ slotId: selectedSlotId, ConsultationType, chiefComplaint, symptoms });
+      const res = await consultationService.book({ slotId: selectedSlotId, consultationType, chiefComplaint, symptoms });
       const data = res?.data ?? res?.result ?? res;
       const id = data?.id ?? data?.consultationId ?? data?.consultation?.id ?? null;
       if (id) {
@@ -140,12 +140,11 @@ export default function DoctorSlots({ doctorId, onSlotSelect }: { doctorId: stri
             <div className="mt-3 space-y-3 rounded-xl border border-gray-100 bg-white p-3">
               <div>
                 <label className="block text-sm text-slate-700 mb-1">Type</label>
-                <select className="w-full rounded-xl border px-3 py-2" value={ConsultationType} onChange={(e) => setConsultationType(e.target.value)}>
-                  <option value="Video">Video</option>
-                  <option value="Audio"> Audio</option>
-                  <option value="Chat">Chat</option>
-                  <option value="In_Person">In_Person</option>
-
+                <select className="w-full rounded-xl border px-3 py-2" value={consultationType} onChange={(e) => setConsultationType(e.target.value)}>
+                  <option value="VIDEO">Video</option>
+                  <option value="AUDIO">Audio</option>
+                  <option value="CHAT">Chat</option>
+                  <option value="IN_PERSON">In Person</option>
                 </select>
               </div>
               <div>
