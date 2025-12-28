@@ -5,6 +5,7 @@ import { StatsCard } from "@/components/stats-card";
 import BarChart from "@/components/charts/BarChart";
 import PieChart from "@/components/charts/PieChart";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { api } from "@/services/api";
 
 export default function DoctorDashboard() {
@@ -62,7 +63,7 @@ export default function DoctorDashboard() {
                     <div className="font-semibold text-slate-900">{c.scheduledStartTime ? new Date(c.scheduledStartTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "-"}</div>
                     <div className="text-sm text-slate-600">Consultation {c.consultationNumber || c.id}</div>
                   </div>
-                  <button className="text-blue-600">Open</button>
+                  <Button variant="secondary">Open</Button>
                 </div>
               ))}
             </div>

@@ -28,7 +28,12 @@ export default function AdminConsultations() {
   }, [page]);
 
   return (
-    <div>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold text-slate-900">Consultations</h1>
+        <span className="text-sm text-slate-500">Page {page}{total ? ` of ${Math.ceil(total / limit)}` : ""}</span>
+      </div>
+
       <Table>
         <THead>
           <TR>
@@ -59,10 +64,10 @@ export default function AdminConsultations() {
       </Table>
       {/* Simple pagination */}
       {total > limit && (
-        <div className="flex gap-2 justify-center mt-4">
-          <button disabled={page === 1} onClick={() => setPage(page - 1)} className="px-3 py-1 rounded bg-gray-100">Prev</button>
+        <div className="flex gap-2 justify-center mt-2 text-sm text-slate-600">
+          <button disabled={page === 1} onClick={() => setPage(page - 1)} className="rounded-xl border border-slate-200 bg-white px-3 py-2 transition hover:bg-slate-50 disabled:opacity-50">Prev</button>
           <span className="px-4 py-2">Page {page}</span>
-          <button disabled={page * limit >= total} onClick={() => setPage(page + 1)} className="px-3 py-1 rounded bg-gray-100">Next</button>
+          <button disabled={page * limit >= total} onClick={() => setPage(page + 1)} className="rounded-xl border border-slate-200 bg-white px-3 py-2 transition hover:bg-slate-50 disabled:opacity-50">Next</button>
         </div>
       )}
     </div>

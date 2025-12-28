@@ -245,7 +245,7 @@ export default function ConsultationDetail({ id }: { id: string }) {
         <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
           <div className="font-semibold text-slate-900 mb-2">Prescription</div>
           <div className="text-sm text-slate-700 mb-3">A prescription has been created for this consultation.</div>
-          <Link href={`/prescriptions/${String(prescription?.id)}`}>
+          <Link href={role === "doctor" ? `/doctor/prescription/${String(prescription?.id)}` : `/prescriptions/${String(prescription?.id)}`}>
             <Button>View Prescription</Button>
           </Link>
         </div>
