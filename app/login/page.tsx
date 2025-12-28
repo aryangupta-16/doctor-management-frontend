@@ -15,9 +15,18 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   function handlePrefill(role: "patient" | "doctor" | "admin") {
-    if (role === "patient") { setEmail("patient@example.com"); setPassword("patient123"); }
-    if (role === "doctor") { setEmail("doctor@example.com"); setPassword("doctor123"); }
-    if (role === "admin") { setEmail("admin@example.com"); setPassword("admin123"); }
+    if (role === "patient") {
+      setEmail("patient@example.com");
+      setPassword("password");
+    }
+    if (role === "doctor") {
+      setEmail("doctor@example.com");
+      setPassword("password");
+    }
+    if (role === "admin") {
+      setEmail("admin@example.com");
+      setPassword("password");
+    }
   }
 
   const onSubmit = (e: React.FormEvent) => {
@@ -51,24 +60,66 @@ export default function LoginPage() {
           <CardContent>
             <form onSubmit={onSubmit} className="space-y-4">
               <div className="text-center">
-                <div className="text-2xl font-semibold text-slate-50">Sign in</div>
-                <div className="text-sm text-slate-300">Use mock credentials for now</div>
+                <div className="text-2xl font-semibold text-slate-50">
+                  Sign in
+                </div>
+                <div className="text-sm text-slate-300">
+                  Use mock credentials for now
+                </div>
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-200">Email</label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
+                <label className="mb-1 block text-sm font-medium text-slate-200">
+                  Email
+                </label>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  required
+                />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-slate-200">Password</label>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
+                <label className="mb-1 block text-sm font-medium text-slate-200">
+                  Password
+                </label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                />
               </div>
               {error && <div className="text-sm text-rose-400">{error}</div>}
-              <Button type="submit" className="w-full" disabled={loading}>{loading ? "Signing in..." : "Login"}</Button>
-              <div className="text-xs text-slate-400 text-center">Quick fill</div>
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Signing in..." : "Login"}
+              </Button>
+              <div className="text-xs text-slate-400 text-center">
+                Quick fill
+              </div>
               <div className="grid grid-cols-3 gap-2">
-                <Button type="button" variant="secondary" onClick={() => handlePrefill("patient")}>Patient</Button>
-                <Button type="button" variant="secondary" onClick={() => handlePrefill("doctor")}>Doctor</Button>
-                <Button type="button" variant="secondary" onClick={() => handlePrefill("admin")}>Admin</Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => handlePrefill("patient")}
+                >
+                  Patient
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => handlePrefill("doctor")}
+                >
+                  Doctor
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => handlePrefill("admin")}
+                >
+                  Admin
+                </Button>
               </div>
             </form>
           </CardContent>
